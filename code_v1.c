@@ -443,3 +443,8 @@ void readFromCSV()
 
     fclose(file);
 }
+
+// Stuff Left to Do : 
+// - Function allowing the user to create their own song
+// - When Playlist is deleted, freeing all the memory for it in heap. Have to do a function for this
+// - Main function where switch statements given for the user input and calling all the functions
