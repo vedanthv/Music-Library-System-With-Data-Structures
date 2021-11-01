@@ -448,3 +448,215 @@ void readFromCSV()
 // - Function allowing the user to create their own song
 // - When Playlist is deleted, freeing all the memory for it in heap. Have to do a function for this
 // - Main function where switch statements given for the user input and calling all the functions
+
+//Function that allows the user to create a song of their own
+void user_song_input()
+{
+    int add_another = 1;
+    char songname[MAX_STRING_SIZE];
+    int year;
+    int durationms;
+    char id[MAX_STRING_SIZE];
+    char album[MAX_STRING_SIZE];
+    char uri[MAX_STRING_SIZE] = "spotify:track:";
+    double duration = 0.0;
+
+    while (add_another && pool_insert_index < MAX_SONG_POOL)
+    {
+        system("cls");
+        printf("\nEnter the details of the song you want to create.\n[ Don't give spaces between each word, use _ instead\n");
+
+        printf("Title: ");
+        scanf("%s", songname);
+        printf("Album Name: ");
+        scanf("%s", album);
+        printf("Year of release: ");
+        if (!(scanf("%d", &year)))
+        {
+            printf("INVALID INPUT ENTERED\n");
+            Sleep(1);
+            break;
+        }
+        printf("Duration(in s): ");
+        if (!(scanf("%d", &durationms)))
+        {
+            printf("INVALID INPUT ENTERED\n");
+            Sleep(1);
+            break;
+        }
+        duration = durationms / 60;
+        printf("Song ID: ");
+        scanf("%s", id);
+        strcat(uri, id);
+        song_pool[pool_insert_index] = createSong(songname, album, year, duration, uri, id);
+        printf("\nThe song %s has been created.\n\n", songname);
+        printf("\nDo you want to create another song?\n(Enter 1 for yes and 0 for no) : ");
+        scanf("%d", &add_another);
+    }
+    system("cls");
+}
+
+//Helper function to delete the playlist created and free all resources taken up by PlaylistNodes
+bool delete_playlist()
+{
+    if (header_node != NULL)
+    {
+        node_ptr current = header_node;
+        while (current != NULL)
+        {
+            node_ptr next = current->next_song;
+            free(current);
+            current = next;
+        }
+        header_node = NULL;
+        now_playing = NULL;
+        return true;
+    }
+    return false;
+}
+
+//Frees resources that had been dynamically allocated
+void free_all_memory()
+{
+    delete_playlist();
+    for (int i = 0; i < MAX_SONG_POOL && song_pool[i] != NULL; i++)
+        free(song_pool[i]);
+    printf("\n---END---");
+
+    //Generate a 2 second delay
+    Sleep(2);
+}
+
+int main()
+{
+    int userChoice = 0;
+    char *terminate = "X";
+    int wrong_choice_count = 0;
+    system("cls");
+    readFromCSV();
+    while (userChoice != -1)
+    {
+        switch (userChoice)
+        {
+        case 0:
+        { //Show menu options
+            main_menu();
+            break;
+        }
+        case 1:
+        {
+            system("cls");
+            if (pool_insert_index >= MAX_SONG_POOL)
+            {
+                printf("Cannot add more songs.\n");
+            }
+
+            user_song_input();
+            break;
+        }
+        case 2:
+        {
+            system("cls");
+            //show_all_songs();
+            int user_song_selection = song_selector();
+            system("cls");
+            break;
+        }
+        case 3:
+        {
+            system("cls");
+            if (does_playlist_exist())
+            {
+                printf("---");
+                if (delete_playlist())
+                    printf("\nThe playlist was successfully deleted.\n");
+                else
+                    printf("\nYou haven't created a playlist yet. Nothing to delete\n");
+
+                printf("---");
+            }
+            else
+                create_playlist();
+            break;
+        }
+        case 4:
+        {
+            system("cls");
+            add_to_playlist();
+            break;
+        }
+        case 5:
+        {
+            system("cls");
+            show_playlist();
+            break;
+        }
+        case 6:
+        {
+            system("cls");
+            play_prev_song();
+            break;
+        }
+        case 7:
+        {
+            system("cls");
+            play_next_song();
+            break;
+        }
+        case 8:
+        {
+            system("cls");
+            show_song_details();
+            break;
+        }
+
+        default:
+        {
+            if (wrong_choice_count == 3)
+            {
+                system("cls");
+                printf("Please enter a valid option or the program will terminate.\n");
+            }
+            if (wrong_choice_count > 3)
+            {
+                system("cls");
+                printf("Sorry you have exceeded the maximum number of retries, terminating..");
+                free_all_memory();
+                exit(1);
+            }
+            else
+            {
+                system("cls");
+                printf("Please enter a valid option from the main menu below\n");
+            }
+            wrong_choice_count++;
+            break;
+        }
+        }
+        if (userChoice != 0)
+        {
+            main_menu();
+        }
+
+        char input[MAX_STRING_SIZE];
+        scanf("%s", input);
+
+        if (!sscanf(input, "%d", &userChoice))
+        {
+            system("cls");
+            printf("----\nINVALID INPUT\n");
+            userChoice = 0;
+            wrong_choice_count++;
+            if (wrong_choice_count > 3)
+            {
+                printf("Sorry you have exceeded the maximum number of retries, terminating..");
+                free_all_memory();
+                exit(1);
+            }
+            continue;
+        }
+    }
+    free_all_memory();
+
+    return 0;
+}
