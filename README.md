@@ -18,7 +18,6 @@ Building a Command Line Interface Music Library System from scratch with Linked 
 ## How Each Feature Works?
 ## New Features To Be Added
 
-Add Songs to Liked List
 - [ ] Display All the Details of the Song
 - [ ] Add Songs To The Liked Songs List
 - [ ] Play Recently Played Songs
