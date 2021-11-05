@@ -19,6 +19,10 @@ Building a Command Line Interface Music Library System from scratch with Linked 
 You can run the `exe` file on any Operating System. 
 To dabble with the code, clone the project and use any IDE of your choice.
 
+## Demo
+[Video]()
+
+### Images
 ## How Each Feature Works?
 ## New Features To Be Added
 
