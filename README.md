@@ -14,6 +14,10 @@ Building a Command Line Interface Music Library System from scratch with Linked 
 - Play Previous Track
 - Play the next track in the song pool or the playlist.
 
+## Software Requirements
+You can run the `exe` file on any Operating System. 
+To dabble with the code, clone the project and use any IDE of your choice.
+
 ## How to Clone and Run the Project
 ## How Each Feature Works?
 ## New Features To Be Added
