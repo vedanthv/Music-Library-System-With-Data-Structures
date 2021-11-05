@@ -13,8 +13,13 @@ Building a Command Line Interface Music Library System from scratch with Linked 
 - Create a new playlist and add songs to it from your pool of tracks.
 - Play Previous Track
 - Play the next track in the song pool or the playlist.
-- Add songs to your Liked Song List.
 
 ## How to Clone and Run the Project
 ## How Each Feature Works?
 ## New Features To Be Added
+
+Add Songs to Liked List
+- [ ] Display All the Details of the Song
+- [ ] Add Songs To The Liked Songs List
+- [ ] Play Recently Played Songs
+- [ ] Add More Existing Songs in the CSV File
